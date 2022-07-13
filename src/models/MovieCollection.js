@@ -6,7 +6,7 @@ const MovieCollectionSchema = new mongoose.Schema({
     genre: { type: String },
     content: { type: Array }
 }, {
-    timestamps: trusted
+    timestamps: true
 });
 
 module.exports = mongoose.model("MovieCollection", MovieCollectionSchema);
