@@ -5,14 +5,12 @@ const User = require('../models/User');
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
 
-    let { username, email, password } = req.body;
-
-    password = pwd.encrypt(password);
+    const { username, email, password } = req.body;
 
     const newUser = new User({
         username: username,
         email: email,
-        password: password
+        password: pwd.encrypt(password)
     });
 
     try {
