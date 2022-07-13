@@ -9,4 +9,4 @@ const MovieCollectionSchema = new Schema({
     timestamps: true
 });
 
-module.exports = model("MovieCollection", MovieCollectionSchema);
+export default model("MovieCollection", MovieCollectionSchema);

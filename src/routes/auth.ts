@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import { encrypt } from '../utils/pwd';
-const User = require('../models/User');
+import User from '../models/User';
 
 const router = express.Router();
 
