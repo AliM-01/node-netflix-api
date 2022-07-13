@@ -1,27 +1,23 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-
-// routes import
-const authRoutes = require('./routes/auth');
-// routes import end
+import express, { Application } from 'express';
+import mongoose, { ConnectOptions } from 'mongoose';
+import dotenv from 'dotenv';
+import { authRouter } from './routes/auth';
 
 dotenv.config();
 
-const app = express();
+const app: Application = express();
+
 app.use(express.json())
 
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.MONGO_URL!, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => console.log("Successfully connected to Database"))
-.catch(err => console.log(err));
+    useUnifiedTopology: true,
+} as ConnectOptions)
+    .then(() => console.log("Successfully connected to Database"))
+    .catch(err => console.log(err));
 
+app.use('/api/auth', authRouter);
 
-// routes
-app.use('/api/auth', authRoutes);
-
-app.listen(8080, () => {
-    console.log("Running on http://localhost:8080");
+app.listen(process.env.PORT, () => {
+    console.log(`Running on http://localhost:${process.env.PORT}`);
 })

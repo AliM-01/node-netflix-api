@@ -1,16 +1,18 @@
-const router = require('express').Router();
-const pwd = require('../utils/pwd');
+import express, { Request, Response } from 'express'
+import { encrypt } from '../utils/pwd';
 const User = require('../models/User');
 
+const router = express.Router();
+
 // POST /api/auth/register
-router.post("/register", async (req, res) => {
+router.post("/register", async (req: Request, res: Response) => {
 
     const { username, email, password } = req.body;
 
     const newUser = new User({
         username: username,
         email: email,
-        password: pwd.encrypt(password)
+        password: encrypt(password)
     });
 
     try {
@@ -23,4 +25,4 @@ router.post("/register", async (req, res) => {
     }
 })
 
-module.exports = router;
+export { router as authRouter };
