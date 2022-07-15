@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import { verify, encrypt } from '@utils';
-import User from '@models/User';
+import { UserModel } from '@models';
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.put("/:id", verify, async (req: Request, res: Response) => {
                 res.status(200).json({ message: "User updated !" });
             }
 
-            const updatedUser = await User.findByIdAndUpdate(
+            const updatedUser = await UserModel.findByIdAndUpdate(
                 req.user.id,
                 { $set: req.body },
                 { new: true });

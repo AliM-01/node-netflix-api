@@ -1,8 +1,7 @@
 import express, { Application } from 'express';
 import mongoose, { ConnectOptions } from 'mongoose';
 import dotenv from 'dotenv';
-import { authRouter } from './routes/auth';
-import { usersRouter } from './routes/users';
+import { authRouter, usersRouter } from '@routes';
 
 dotenv.config();
 

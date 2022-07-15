@@ -12,8 +12,14 @@
     "typeRoots": ["./src/@types", "node_modules/@types"],
     "paths": {
       "@app*": ["./src/*"],
+
       "@models*": ["./src/_models/*"],
-      "@utils*": ["./src/_utils/_index.ts"],
+      "@models": ["./src/_models/_index.ts"],
+
+      "@utils*": ["./src/_utils/*"],
+      "@utils": ["./src/_utils/_index.ts"],
+      
+      "@routes": ["./src/routes/_index.ts"],
     },
   },
   "include": ["./src/**/*"]

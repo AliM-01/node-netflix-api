@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { encrypt, decrypt } from '../_utils/pwd';
-import User from '@models/User';
+import { UserModel } from '@models';
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.post("/register", async (req: Request, res: Response) => {
 
     const { username, email, password } = req.body;
 
-    const newUser = new User({
+    const newUser = new UserModel({
         username: username,
         email: email,
         password: encrypt(password)
@@ -32,7 +32,7 @@ router.post("/login", async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try {
-        const user: any = await User.findOne({ email: email });
+        const user: any = await UserModel.findOne({ email: email });
 
         if (!user)
             res.status(401).json({ message: "Wrong Username or Password" });
@@ -44,15 +44,16 @@ router.post("/login", async (req: Request, res: Response) => {
 
         const accessToken = jwt.sign(
             { id: user._id, isAdmin: user.isAdmin },
-            process.env.JWT_SECRET_KEY!, 
+            process.env.JWT_SECRET_KEY!,
             { expiresIn: "3d" }
         );
 
-        res.status(200).json({ 
+        res.status(200).json({
             message: "Successfully logged in!",
-            "access-token": accessToken, 
-            "uid":  user._id });
-        
+            "access-token": accessToken,
+            "uid": user._id
+        });
+
     } catch (err) {
         res.status(500).json(err);
     }
