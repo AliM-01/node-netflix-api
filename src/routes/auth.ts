@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
-import { encrypt } from '../utils/pwd';
+import jwt from 'jsonwebtoken'
+import { encrypt, decrypt } from '../utils/pwd';
 import User from '../models/User';
 
 const router = express.Router();
@@ -20,6 +21,34 @@ router.post("/register", async (req: Request, res: Response) => {
         res.status(201).json({
             id: user.id
         });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
+// POST /api/auth/login
+router.post("/login", async (req: Request, res: Response) => {
+
+    const { email, password } = req.body;
+
+    try {
+        const user: any = await User.findOne({ email: email });
+
+        if (!user)
+            res.status(401).json({ message: "Wrong Username or Password" });
+
+        const originalPassword = decrypt(user.password);
+
+        if (originalPassword !== password)
+            res.status(401).json({ message: "Wrong Username or Password" });
+
+        const accessToken = jwt.sign(
+            { id: user._id, isAdmin: user.isAdmin },
+            process.env.JWT_SECRET_KEY!, 
+            { expiresIn: "3d" }
+        );
+
+        res.status(200).json({ message: "Successfully logged in!", "access-token": accessToken })
     } catch (err) {
         res.status(500).json(err);
     }
