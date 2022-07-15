@@ -48,7 +48,11 @@ router.post("/login", async (req: Request, res: Response) => {
             { expiresIn: "3d" }
         );
 
-        res.status(200).json({ message: "Successfully logged in!", "access-token": accessToken })
+        res.status(200).json({ 
+            message: "Successfully logged in!",
+            "access-token": accessToken, 
+            "uid":  user._id });
+        
     } catch (err) {
         res.status(500).json(err);
     }

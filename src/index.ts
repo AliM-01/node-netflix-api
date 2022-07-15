@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import mongoose, { ConnectOptions } from 'mongoose';
 import dotenv from 'dotenv';
 import { authRouter } from './routes/auth';
+import { usersRouter } from './routes/users';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ mongoose.connect(process.env.MONGO_URL!, {
     .catch(err => console.log(err));
 
 app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Running on http://localhost:${process.env.PORT}`);
