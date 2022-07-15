@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express'
-import verify from '../utils/verify-token';
-import { encrypt, decrypt } from '../utils/pwd';
+import { verify, encrypt } from '@utils';
 import User from '@models/User';
 
 const router = express.Router();
@@ -26,15 +25,15 @@ router.put("/:id", verify, async (req: Request, res: Response) => {
                 { $set: req.body },
                 { new: true });
 
-            res.status(200).json({ 
-                message: "User updated !", 
+            res.status(200).json({
+                message: "User updated !",
                 user: {
                     uid: updatedUser?._id,
                     email: updatedUser?.email,
                     username: updatedUser?.username,
                     pfp: updatedUser?.pfp,
                     isAdmin: updatedUser?.isAdmin,
-                } 
+                }
             });
 
         } catch (err) {

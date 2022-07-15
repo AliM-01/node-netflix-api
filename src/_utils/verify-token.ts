@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
-export default function verify(req: Request, res: Response, next: NextFunction) {
+export function verify(req: Request, res: Response, next: NextFunction) {
 
     console.log("jwt");
 

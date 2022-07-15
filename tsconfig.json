@@ -13,6 +13,7 @@
     "paths": {
       "@app*": ["./src/*"],
       "@models*": ["./src/_models/*"],
+      "@utils*": ["./src/_utils/_index.ts"],
     },
   },
   "include": ["./src/**/*"]

@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import { encrypt, decrypt } from '../utils/pwd';
+import { encrypt, decrypt } from '../_utils/pwd';
 import User from '@models/User';
 
 const router = express.Router();
