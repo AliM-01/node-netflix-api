@@ -15,8 +15,9 @@ export function verify(req: Request, res: Response, next: NextFunction) {
     
             next();
         });
+    } else {
+        res.status(401).json({ message: "Unauthorized !" });
+        next();
     }
-
-    res.status(401).json({ message: "Unauthorized !" });
-    next();
+    
 }
