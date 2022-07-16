@@ -1,3 +1,3 @@
 export * from './pwd';
-export * from './verify-token';
+export * from './authorization';
 export * from './usermodel_map';

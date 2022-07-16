@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import mongoose, { ConnectOptions } from 'mongoose';
 import dotenv from 'dotenv';
-import { authRouter, usersRouter } from '@routes';
+import { authRouter, adminUsersRouter, usersRouter } from '@routes';
 
 dotenv.config();
 
@@ -17,6 +17,7 @@ mongoose.connect(process.env.MONGO_URL!, {
     .catch(err => console.log(err));
 
 app.use('/api/auth', authRouter);
+app.use('/api/admin/users', adminUsersRouter);
 app.use('/api/users', usersRouter);
 
 app.listen(process.env.PORT, () => {
