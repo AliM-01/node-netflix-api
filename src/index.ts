@@ -1,7 +1,8 @@
-import express, { Application } from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import mongoose, { ConnectOptions } from 'mongoose';
 import dotenv from 'dotenv';
 import { authRouter, adminUsersRouter, usersRouter } from '@routes';
+import { AppError } from '@utils';
 
 dotenv.config();
 
@@ -19,6 +20,15 @@ mongoose.connect(process.env.MONGO_URL!, {
 app.use('/api/auth', authRouter);
 app.use('/api/admin/users', adminUsersRouter);
 app.use('/api/users', usersRouter);
+
+// Error handler
+app.use((err:AppError, req: Request, res: Response, next: NextFunction) => {
+    res.status(err.status || 500)
+        .json({
+            status: err.status || 500,
+            message: err.message
+        });
+});
 
 app.listen(process.env.PORT, () => {
     console.log(`Running on http://localhost:${process.env.PORT}`);
