@@ -12,23 +12,12 @@ router.get("/", verify, async (req: Request, res: Response) => {
     const query = req.query.new;
 
     try {
-        let users = query ? await UserModel.find().limit(10) : await UserModel.find();
+        const users = query ? await UserModel.find().limit(10)
+                    : await UserModel.find();
 
-        console.log(users);
-
-        users.map((item) => {
-            return {
-                uid: item?._id,
-                email: item?.email,
-                username: item?.username,
-                pfp: item?.pfp,
-                isAdmin: item?.isAdmin
-            }
-        });
-
-        console.log(users);
-
-        res.status(200).json(users);
+        res.status(200).json(
+            users.map(item => mapUser(item))
+        );
     } catch (err) {
         res.status(500).json(err);
     }
