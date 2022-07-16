@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express'
-import { isAuthenticated, isAdmin, encrypt, mapUser } from '@utils';
+import { isAuthenticated, encrypt, mapUser } from '@utils';
 import { UserModel } from '@models';
 
 const router = express.Router();
 
-router.get("/", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
+router.get("/", isAuthenticated, async (req: Request, res: Response) => {
     try {
         const user = await UserModel.findById(req.user.id);
 
