@@ -44,4 +44,18 @@ router.put("/:id", verify, async (req: Request, res: Response) => {
     }
 })
 
+// DELETE /api/users/:id
+router.delete("/:id", verify, async (req: Request, res: Response) => {
+    if (req.user.id === req.params.id || req.user.isAdmin) {
+        try {
+            await UserModel.findByIdAndDelete(req.user.id);
+            res.status(200).json({message: "User has been deleted !"});
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    } else {
+        res.status(403);
+    }
+})
+
 export { router as usersRouter };
