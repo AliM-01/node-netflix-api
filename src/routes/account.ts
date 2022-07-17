@@ -4,6 +4,7 @@ import { UserModel } from '@models';
 
 const router = express.Router();
 
+// GET /api/account
 router.get("/", isAuthenticated, async (req: Request, res: Response) => {
     try {
         const user = await UserModel.findById(req.user.id);
@@ -14,10 +15,10 @@ router.get("/", isAuthenticated, async (req: Request, res: Response) => {
     }
 });
 
-// PUT /api/users/:id
+// PUT /api/account
 router.put("/", isAuthenticated, async (req: Request, res: Response) => {
     if (!req.body)
-        res.status(200).json({ message: "User updated !" });
+        res.status(200).json({ message: "Account updated !" });
 
     if (req.body.password)
         req.body.password = encrypt(req.body.password)
@@ -39,7 +40,7 @@ router.put("/", isAuthenticated, async (req: Request, res: Response) => {
     }
 })
 
-// DELETE /api/users/:id
+// DELETE /api/account
 router.delete("/", isAuthenticated, async (req: Request, res: Response) => {
     try {
         await UserModel.findByIdAndDelete(req.user?.id);
@@ -49,4 +50,4 @@ router.delete("/", isAuthenticated, async (req: Request, res: Response) => {
     }
 })
 
-export { router as usersRouter };
+export { router as accountRouter };

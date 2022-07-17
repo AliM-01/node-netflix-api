@@ -4,6 +4,7 @@ import { UserModel } from '@models';
 
 const router = express.Router();
 
+// GET /api/admin/users
 router.get("/", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
 
     const query = req.query.new;
@@ -20,6 +21,7 @@ router.get("/", isAuthenticated, isAdmin, async (req: Request, res: Response) =>
     }
 });
 
+// GET /api/admin/users/stats
 router.get("/stats", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
 
     try {
@@ -42,6 +44,7 @@ router.get("/stats", isAuthenticated, isAdmin, async (req: Request, res: Respons
     }
 });
 
+// GET /api/admin/users/:id
 router.get("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
     try {
         const user = await UserModel.findById(req.user.id);
@@ -51,7 +54,7 @@ router.get("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response)
     }
 });
 
-// PUT /api/users/:id
+// PUT /api/admin/users/:id
 router.put("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
 
     if (!req.body)
@@ -77,7 +80,7 @@ router.put("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response)
     }
 })
 
-// DELETE /api/users/:id
+// DELETE /api/admin/users/:id
 router.delete("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
     try {
         await UserModel.findByIdAndDelete(req.user.id);
