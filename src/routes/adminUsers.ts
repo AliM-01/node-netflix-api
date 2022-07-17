@@ -9,12 +9,34 @@ router.get("/", isAuthenticated, isAdmin, async (req: Request, res: Response) =>
     const query = req.query.new;
 
     try {
-        const users = query ? await UserModel.find().limit(10)
+        const users = query ? await UserModel.find().sort({ _id: -1 }).limit(10)
             : await UserModel.find();
 
         res.status(200).json(
             users.map(item => mapUser(item))
         );
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+router.get("/stats", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
+
+    try {
+        const data = await UserModel.aggregate([
+            {
+                $project: {
+                    month: { $month: "$createdAt" },
+                },
+            },
+            {
+                $group: {
+                    _id: "$month",
+                    total: { $sum: 1 },
+                },
+            },
+        ]);
+        res.status(200).json(data)
     } catch (err) {
         res.status(500).json(err);
     }
