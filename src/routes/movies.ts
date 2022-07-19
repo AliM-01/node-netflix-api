@@ -4,6 +4,20 @@ import { MovieModel } from '@models';
 
 const router = express.Router();
 
+// GET /api/movies/:id
+router.get("/:id", isAuthenticated, async (req: Request, res: Response) => {
+
+    try {
+
+        const movie = await MovieModel.findById(req.params.id);
+
+        res.status(200).json(movie);;
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 // POST /api/movies
 router.post("/", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
 
@@ -37,6 +51,20 @@ router.put("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response)
             { $set: req.body }, { new: true });
 
         res.status(200).json({ message: "Movie updated !" });
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+// DELETE /api/movies/:id
+router.delete("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
+
+    try {
+
+        await MovieModel.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({ message: "Movie deleted !" });;
 
     } catch (err) {
         res.status(500).json(err);
