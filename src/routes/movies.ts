@@ -25,4 +25,22 @@ router.post("/", isAuthenticated, isAdmin, async (req: Request, res: Response) =
     }
 });
 
+// PUT /api/movies/:id
+router.put("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
+
+    if (!req.body)
+        res.status(400);
+
+    try {
+
+        await MovieModel.findByIdAndUpdate(req.params.id, 
+            { $set: req.body }, { new: true });
+
+        res.status(200).json({ message: "Movie updated !" });
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 export { router as moviesRouter };
