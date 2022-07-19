@@ -1,7 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import mongoose, { ConnectOptions } from 'mongoose';
 import dotenv from 'dotenv';
-import { authRouter, adminUsersRouter, accountRouter } from '@routes';
+import { authRouter, adminUsersRouter, accountRouter, moviesRouter } from '@routes';
 import { AppError } from '@utils';
 
 dotenv.config();
@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGO_URL!, {
 app.use('/api/auth', authRouter);
 app.use('/api/admin/users', adminUsersRouter);
 app.use('/api/account', accountRouter);
+app.use('/api/movies', moviesRouter);
 
 // Error handler
 app.use((err:AppError, req: Request, res: Response, next: NextFunction) => {

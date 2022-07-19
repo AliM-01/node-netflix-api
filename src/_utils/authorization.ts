@@ -14,7 +14,7 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
                 return next(new AppError(403, err?.message!));
 
             req.user = user;
-
+            
             return next();
         });
     } else {

@@ -5,13 +5,42 @@ import { MovieModel } from '@models';
 const router = express.Router();
 
 // GET /api/movies/:id
-router.get("/:id", isAuthenticated, async (req: Request, res: Response) => {
+router.get("/find/:id", isAuthenticated, async (req: Request, res: Response) => {
 
     try {
 
         const movie = await MovieModel.findById(req.params.id);
 
         res.status(200).json(movie);;
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+// GET /api/movies/random
+// GET /api/movies/random?type=movie
+// GET /api/movies/random?type=series
+router.get("/random/:type", isAuthenticated, async (req: Request, res: Response) => {
+
+    const type = req.query.type;
+
+    try {
+
+        let randomMovie;
+
+        if (type === "series") {
+            randomMovie = MovieModel.aggregate([
+                { $match: { isSeries: true } },
+                { $sample: { size: 1 } }
+            ])
+        } else {
+            randomMovie = MovieModel.aggregate([
+                { $match: { isSeries: false } },
+                { $sample: { size: 1 } }
+            ])
+        }
+        res.status(200).json(randomMovie);
 
     } catch (err) {
         res.status(500).json(err);
@@ -47,7 +76,7 @@ router.put("/:id", isAuthenticated, isAdmin, async (req: Request, res: Response)
 
     try {
 
-        await MovieModel.findByIdAndUpdate(req.params.id, 
+        await MovieModel.findByIdAndUpdate(req.params.id,
             { $set: req.body }, { new: true });
 
         res.status(200).json({ message: "Movie updated !" });
