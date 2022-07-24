@@ -4,6 +4,20 @@ import { MovieModel } from '@models';
 
 const router = express.Router();
 
+// GET /api/movies/all
+router.get("/all", isAuthenticated, isAdmin, async (req: Request, res: Response) => {
+
+    try {
+
+        const movies = await MovieModel.find().sort({ _id: -1 }).limit(25);
+
+        res.status(200).json(movies);;
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 // GET /api/movies/:id
 router.get("/find/:id", isAuthenticated, async (req: Request, res: Response) => {
 
